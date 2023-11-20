@@ -7,11 +7,19 @@ import telebot
 bot = telebot.TeleBot('YOUR_BOT_TOKEN')
 
 # Trigger words
-trigger_words = '/cpu'
+trigger_words = ['/cpu', '/ram', '/storage']
 
 # Get the CPU load
 def get_cpu_load():
     return psutil.cpu_percent()
+
+# Get the RAM usage
+def get_ram_usage():
+    return psutil.virtual_memory().percent
+
+# Get the storage usage
+def get_storage_usage():
+    return psutil.disk_usage('/').percent
 
 # Send the CPU load to the Telegram bot
 def send_cpu_load(chat_id):
@@ -19,12 +27,28 @@ def send_cpu_load(chat_id):
     message = f"Current CPU load: {cpu_load}%"
     bot.send_message(chat_id, message)
 
-# Def to handle incoming messages
+# Send the RAM usage to the Telegram bot
+def send_ram_usage(chat_id):
+    ram_usage = get_ram_usage()
+    message = f"Current RAM usage: {ram_usage}%"
+    bot.send_message(chat_id, message)
+
+# Send the storage usage to the Telegram bot
+def send_storage_usage(chat_id):
+    storage_usage = get_storage_usage()
+    message = f"Current storage usage: {storage_usage}%"
+    bot.send_message(chat_id, message)
+
+# Define the function to handle incoming messages
 @bot.message_handler(func=lambda message: message.text in trigger_words)
 def handle_message(message):
-    chat_id = YOUR_CHAT_ID # Replace YOUR_CHAT_ID with the actual chat ID where you want to send the message
+    chat_id = -4073498824 # Replace YOUR_CHAT_ID with the actual chat ID where you want to send the message
     if message.text == '/cpu':
         send_cpu_load(chat_id)
+    elif message.text == '/ram':
+        send_ram_usage(chat_id)
+    elif message.text == '/storage':
+        send_storage_usage(chat_id)
 
 # Start the bot
 while True:

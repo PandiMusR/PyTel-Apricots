@@ -47,7 +47,7 @@ def send_help(chat_id):
 # Define the function to handle incoming messages
 @bot.message_handler(func=lambda message: message.text in trigger_words)
 def handle_message(message):
-    chat_id = -4073498824 # Replace YOUR_CHAT_ID with the actual chat ID where you want to send the message
+    chat_id = 'Your CHat ID' # Replace YOUR_CHAT_ID with the actual chat ID where you want to send the message
     if message.text == '/cpu':
         send_cpu_load(chat_id)
     elif message.text == '/ram':

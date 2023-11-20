@@ -7,7 +7,7 @@ import telebot
 bot = telebot.TeleBot('YOUR_BOT_TOKEN')
 
 # Trigger words
-trigger_words = ['/cpu', '/ram', '/storage']
+trigger_words = ['/cpu', '/ram', '/storage', '/help']
 
 # Get the CPU load
 def get_cpu_load():
@@ -39,6 +39,11 @@ def send_storage_usage(chat_id):
     message = f"Current storage usage: {storage_usage}%"
     bot.send_message(chat_id, message)
 
+# Send the list commands to the Telegram bot
+def send_help(chat_id):
+    message = "Available commands: /cpu, /ram, /storage"
+    bot.send_message(chat_id, message)
+
 # Define the function to handle incoming messages
 @bot.message_handler(func=lambda message: message.text in trigger_words)
 def handle_message(message):
@@ -49,6 +54,8 @@ def handle_message(message):
         send_ram_usage(chat_id)
     elif message.text == '/storage':
         send_storage_usage(chat_id)
+    elif message.text == '/help':
+        send_help(chat_id)
 
 # Start the bot
 while True:
